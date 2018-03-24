@@ -41,10 +41,19 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
     }
 }
 
-func ShowIndex(writer io.Writer, posts []string) {
+func ShowIndex(writer io.Writer, posts []map[string]string) {
     args := make(map[string]string)
+    body := "<div class=\"pure-u-1 pure-u-md-1-2\">"
 
+    for _, post := range posts {
+        title := fmt.Sprintf("<h3 class=\"information-head\">%s</h3>",
+                             post["title"])
+        body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n",
+                           body, title, post["body"])
+    }
 
+    body = fmt.Sprintf("%s</div>\n", body)
+    args["body"] = body
 
     LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
 }

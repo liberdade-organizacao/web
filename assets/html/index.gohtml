@@ -23,49 +23,8 @@
 
         <div class="l-content">
             <div class="information pure-g">
-                {block:Posts}
-                    {block:Text}
-                        <div class="pure-u-1 pure-u-md-1-2">
-                            <div class="l-box">
-                                {block:Title}<h3 class="information-head">{Title}</h3>{/block:Title}
-                                <p>
-                                    {Body}
-                                </p>
-                            </div>
-                        </div>
-                    {/block:Text}
-                    {block:Photo}
-                        <div class="pure-u-1 pure-u-md-1-2">
-                            <p>
-                                <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
-                                {block:Caption}
-                                    <div class="caption">{Caption}</div>
-                                {/block:Caption}
-                            </p>
-                        </div>
-                    {/block:Photo}
-                    {block:Photoset}
-                        <div class="pure-u-1 pure-u-md-1-2">
-                            <p>
-                                {Photoset-500}
-                                {block:Caption}
-                                <div class="caption">{Caption}</div>
-                                {/block:Caption}
-                            </p>
-                        </div>
-                    {/block:Photoset}
-                    {block:Video}
-                        <div class="pure-u-1 pure-u-md-1-2">
-                            <p>
-                                {Video-500}
-                                {block:Caption}
-                                <div class="caption">{Caption}</div>
-                                {/block:Caption}
-                            </p>
-                        </div>
-                    {/block:Video}
-                {/block:Posts}
-                <div class="pure-u-1 pure-u-md-1-2">
+                {{.Body}}
+                <!-- <div class="pure-u-1 pure-u-md-1-2">
                     <div class="l-box">
                         <p>
                             {block:PreviousPage}
@@ -76,7 +35,7 @@
                             {/block:NextPage}
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 

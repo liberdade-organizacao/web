@@ -1,12 +1,15 @@
 package model
 
-import "os"
-import "os/exec"
-import "fmt"
-import "errors"
-import "bytes"
-import "net/http"
-import "json"
+import (
+    "os"
+    "os/exec"
+    "fmt"
+    "errors"
+    "bytes"
+    "net/http"
+    "encoding/json"
+    "io/ioutil"
+)
 
 // Gets the port for releasing the server
 func GetPort() string {
@@ -20,19 +23,41 @@ func GetPort() string {
 }
 
 // Retrieves posts from Tumblr
-func GetPosts() []string {
+func GetPosts() []map[string]string {
+    outlet := make([]map[string]string, 0)
+
+    // Downloading stuff
     secret := os.Getenv("TUMBLR_SECRET")
     url := fmt.Sprintf("http://api.tumblr.com/v2/blog/%s/posts/text?api_key=%s",
                        "liberdadeorganizacao.tumblr.com",
                        secret)
     rawResponse, oops := http.Get(url)
-    var response interface{}
-    oops := json.Unmarshall(rawResponse, &response)
-    outlet := make([]string, 0)
     if oops != nil {
         return outlet
     }
-    // TODO Implement me!
+    defer rawResponse.Body.Close()
+    content, oops := ioutil.ReadAll(rawResponse.Body)
+
+    // Parsing response
+    var payload interface{}
+    oops = json.Unmarshal(content, &payload)
+
+    if oops != nil {
+        return outlet
+    }
+
+    meta := payload.(map[string]interface{})["meta"].(map[string]interface{})
+    status := meta["status"].(float64)
+    if status == 200 {
+        posts := payload.(map[string]interface{})["response"].(map[string]interface{})["posts"].([]interface{})
+        for _, rawPost := range posts {
+            post := make(map[string]string)
+            post["title"] = rawPost.(map[string]interface{})["title"].(string)
+            post["body"] = rawPost.(map[string]interface{})["body"].(string)
+            outlet = append(outlet, post)
+        }
+    }
+
     return outlet
 }
 

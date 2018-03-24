@@ -115,10 +115,3 @@ func loadHeader() string {
 func loadJs(scripts []string) string {
     return loadLot("assets/js/", scripts)
 }
-
-// TODO Create add body function
-func (vm *ViewModel) AddBody(body map[string]template.HTML) {
-    for key, value := range body {
-        vm.Body[key] = value
-    }
-}
