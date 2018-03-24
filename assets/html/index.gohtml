@@ -3,106 +3,84 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Personal website for Cristiano Silva Jr.">
-        <title>Hello!</title>
+        <meta name="description" content="Página da Liberdade Consultoria em Organização">
+        <title>Liberdade.</title>
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
-        <link rel="icon" href="https://raw.githubusercontent.com/ishiikurisu/crisjr-eng-br/master/assets/logo.png">
-        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
         <style>
             {{.Style}}
         </style>
     </head>
     <body>
 
-        <div class="header">
-            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                <a class="pure-menu-heading" href="/"><i class="fa fa-smile-o"></i>
-					Cris Silva Jr.
-				</a>
+        {{.Header}}
 
-                <ul class="pure-menu-list">
-                    <li class="pure-menu-item"><a href="office" class="pure-menu-link">Escritório</a></li>
-                    <li class="pure-menu-item"><a href="garage" class="pure-menu-link">Oficina</a></li>
-                </ul>
-            </div>
+        <div class="banner">
+            <h1 class="banner-head">
+                Liberdade.
+            </h1>
         </div>
 
-        <div class="splash-container">
-            <div class="splash">
-                <h1 class="splash-head">Cris Silva Jr.</h1>
-                <p class="splash-subhead">
-                    Transformando café e donuts em soluções para problemas.
-                </p>
-            </div>
-        </div>
-
-        <div class="content-wrapper">
-            <div class="content">
-                <h2 class="content-head is-center">O que eu posso oferecer?</h2>
-
-                <div class="pure-g">
-                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
-
-                        <h3 class="content-subhead">
-                            <i class="fa fa-bolt"></i>
-                            Engenharia de Controle e Automação
-                        </h3>
+        <div class="l-content">
+            <div class="information pure-g">
+                {block:Posts}
+                    {block:Text}
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <div class="l-box">
+                                {block:Title}<h3 class="information-head">{Title}</h3>{/block:Title}
+                                <p>
+                                    {Body}
+                                </p>
+                            </div>
+                        </div>
+                    {/block:Text}
+                    {block:Photo}
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <p>
+                                <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+                                {block:Caption}
+                                    <div class="caption">{Caption}</div>
+                                {/block:Caption}
+                            </p>
+                        </div>
+                    {/block:Photo}
+                    {block:Photoset}
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <p>
+                                {Photoset-500}
+                                {block:Caption}
+                                <div class="caption">{Caption}</div>
+                                {/block:Caption}
+                            </p>
+                        </div>
+                    {/block:Photoset}
+                    {block:Video}
+                        <div class="pure-u-1 pure-u-md-1-2">
+                            <p>
+                                {Video-500}
+                                {block:Caption}
+                                <div class="caption">{Caption}</div>
+                                {/block:Caption}
+                            </p>
+                        </div>
+                    {/block:Video}
+                {/block:Posts}
+                <div class="pure-u-1 pure-u-md-1-2">
+                    <div class="l-box">
                         <p>
-                            Eu trabalho principalmente com processamento digital de sinais. A maioria das minhas experiências envolveram a produção de ferramentas de software e hardware dedicadas para análise de sinais biomédicos, principalmente eletrofisiológicos.
-                        </p>
-                    </div>
-                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
-                        <h3 class="content-subhead">
-                            <i class="fa fa-sitemap"></i>
-                            Gestão de Projetos
-                        </h3>
-                        <p>
-                            Eu organizo equipes e espaços focados para um objetivo em comum utilizando técnicas modernas de gestão de tempo e de projetos. Eu também ministro treinamentos e presto consultoria àqueles interessados em se organizar.
+                            {block:PreviousPage}
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            {/block:PreviousPage}
+                            {block:NextPage}
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            {/block:NextPage}
                         </p>
                     </div>
                 </div>
             </div>
-
-            <div class="ribbon l-box-lrg pure-g">
-                <h2 class="content-head content-head-ribbon">O que eu já fiz?</h2>
-
-                <div class="pure-g">
-                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
-                        <h3 class="content-subhead">
-                            <i class="fa fa-file"></i>
-                            <a class="joe-ribbon-header" href="https://github.com/ishiikurisu/edf">Biblioteca EDF+</a>
-                        </h3>
-                        <p>Um implementação do padrão <a class="joe-ribbon" href="http://www.edfplus.info/">EDF+</a> em Go.</p>
-                    </div>
-                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
-                        <h3 class="content-subhead">
-                            <i class="fa fa-list-alt"></i>
-                            <a class="joe-ribbon-header" href="https://github.com/ishiikurisu/Scalemate/releases">Scalemate</a>
-                        </h3>
-                        <p>Uma plataforma <i>open source</i> para testes psicológicos. <a class="joe-ribbon" href="https://github.com/ishiikurisu/Scalemate">Código fonte disponível.</a></p>
-                    </div>
-                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
-                        <h3 class="content-subhead">
-                            <i class="fa fa-list-ul"></i>
-                            <a class="joe-ribbon-header" href="https://github.com/ishiikurisu/failproof/releases">Failproof Checklists</a>
-                        </h3>
-                        <p>Um local para as suas <i>checklists</i>. Cada um de nós tem as suas afinal. <a class="joe-ribbon" href="https://github.com/ishiikurisu/failproof-api">Código fonte disponível.</a></p>
-                    </div>
-                    <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
-                        <h3 class="content-subhead">
-                            <i class="fa fa-dollar"></i>
-                            <a class="joe-ribbon-header" href="http://logey.herokuapp.com">Logey</a>
-                        </h3>
-                        <p>Uma ferramenta de contabilidade pessoal simples. <a class="joe-ribbon" href="https://github.com/ishiikurisu/logeyweb">Código fonte disponível.</a></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content">
-                {{.Footer}}
-            </div>
-
         </div>
+
+        {{.Footer}}
 
         <script type="text/javascript">
             {{.Script}}

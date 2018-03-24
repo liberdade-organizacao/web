@@ -41,23 +41,16 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
     }
 }
 
-func SayHello(writer io.Writer) {
+func ShowIndex(writer io.Writer) {
     LoadFileWithoutArgs(writer, "assets/html/index.gohtml")
 }
 
-func TalkAboutOffice(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/office.gohtml")
+func ShowContactPage(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
 }
 
-func TalkAboutGarage(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/garage.gohtml")
-}
-
-func TalkAboutGtd(writer io.Writer) {
-    LoadFileWithArgs(writer, "assets/html/persorg.gohtml", map[string]string {
-        "style": "reveal.css crisjr.css",
-        "script": "reveal.js",
-    })
+func ShowAboutPage(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "assets/html/quem.gohtml")
 }
 
 func DisplayError(writer io.Writer, oops error) {

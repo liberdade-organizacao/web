@@ -12,6 +12,9 @@ type ViewModel struct {
     Style template.CSS
 
     // This is the footer for the page, described at assets/html/footer.html
+    Header template.HTML
+
+    // This is the footer for the page, described at assets/html/footer.html
     Footer template.HTML
 
     // This mapping will relate the data produced by the model to the view.
@@ -24,14 +27,15 @@ type ViewModel struct {
 // Creates a new view model.
 func NewViewModel() *ViewModel {
     cssFiles := []string {
-        "pure.css",
-        "app.css",
+        // "pure.css",
+        "master.css",
     }
     jsFiles := []string {
         "app.js",
     }
     vm := ViewModel {
         Style: template.CSS(loadCss(cssFiles)),
+        Header: template.HTML(loadHeader()),
         Footer: template.HTML(loadFooter()),
         Body: make(map[string]template.HTML),
         Script: template.JS(loadJs(jsFiles)),
@@ -81,6 +85,19 @@ func loadCss(files []string) string {
 func loadFooter() string {
     pwd := GetPwd()
     footer, err := ioutil.ReadFile(pwd + "assets/html/footer.html")
+
+    if err != nil {
+        fmt.Println(err)
+        footer = []byte { }
+    }
+
+    return string(footer)
+}
+
+// Loads the header HTML
+func loadHeader() string {
+    pwd := GetPwd()
+    footer, err := ioutil.ReadFile(pwd + "assets/html/header.html")
 
     if err != nil {
         fmt.Println(err)

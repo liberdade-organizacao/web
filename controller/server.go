@@ -21,11 +21,9 @@ func NewServer() Server {
     }
 
     // Main pages
-    http.HandleFunc("/", server.SayHello)
-    http.HandleFunc("/office", server.TalkAboutOffice)
-    http.HandleFunc("/garage", server.TalkAboutGarage)
-    http.HandleFunc("/office/gtd", server.TalkAboutGtd)
-    http.HandleFunc("/api/mail", server.SendMail)
+    http.HandleFunc("/", server.ShowIndex)
+    http.HandleFunc("/contato", server.ShowContactPage)
+    http.HandleFunc("/quem", server.ShowAboutPage)
 
     return server
 }
@@ -36,29 +34,18 @@ func (server *Server) Serve() {
 }
 
 // Displays the main page
-func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
-    view.SayHello(w)
+func (server *Server) ShowIndex(w http.ResponseWriter, r *http.Request) {
+    view.ShowIndex(w)
 }
 
 // Displays the office page
-func (server *Server) TalkAboutOffice(w http.ResponseWriter, r *http.Request) {
-    view.TalkAboutOffice(w)
+func (server *Server) ShowContactPage(w http.ResponseWriter, r *http.Request) {
+    view.ShowContactPage(w)
 }
 
 // Displays the garage page
-func (server *Server) TalkAboutGarage(w http.ResponseWriter, r *http.Request) {
-    view.TalkAboutGarage(w)
+func (server *Server) ShowAboutPage(w http.ResponseWriter, r *http.Request) {
+    view.ShowAboutPage(w)
 }
 
-// Starts the GTD presentation
-func (server *Server) TalkAboutGtd(w http.ResponseWriter, r *http.Request) {
-    view.TalkAboutGtd(w)
-}
-
-// Sends an e-mail to myself
-func (server *Server) SendMail(w http.ResponseWriter, r *http.Request) {
-    to := r.FormValue("to")
-    msg := r.FormValue("msg")
-    oops := model.SendSimpleMail(to, msg)
-    view.DisplayError(w, oops)
-}
+// TODO Implement call for Slack
