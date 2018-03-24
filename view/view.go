@@ -58,8 +58,18 @@ func ShowIndex(writer io.Writer, posts []map[string]string) {
     LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
 }
 
-func ShowAboutPage(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
+func ShowAboutPage(writer io.Writer, message string) {
+    if len(message) == 0 {
+        LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
+    } else {
+        script := "ok.js"
+        if message != "ok" {
+            script = "not-ok.js"
+        }
+        args := make(map[string]string)
+        args["script"] = script
+        LoadFileWithArgs(writer, "assets/html/contato.gohtml", args)
+    }
 }
 
 func ShowSupportPage(writer io.Writer) {

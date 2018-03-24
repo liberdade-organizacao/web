@@ -2,9 +2,7 @@ package model
 
 import (
     "os"
-    "os/exec"
     "fmt"
-    "errors"
     "bytes"
     "net/http"
     "encoding/json"
@@ -62,24 +60,14 @@ func GetPosts() []map[string]string {
 }
 
 // Sends a simple email
-func SendSimpleMail(recipient, message string) error {
+func Contact(request *http.Request) error {
+    recipient := fmt.Sprintf("%s <%s>",
+                             request.FormValue("name"),
+                             request.FormValue("email"))
+    message := request.FormValue("message")
+    content := bytes.NewBufferString(fmt.Sprintf("{\"text\": \"%s: %s\"}",
+                                                 recipient, message))
     slackWebhook := os.Getenv("SLACK_WEBHOOK")
-    cmd := exec.Command("curl",
-                        "-X", "POST",
-                        "-H", "Content-type: application/json",
-                        "--data", fmt.Sprintf("{\"text\": \"De: %s\r\nMensagem: %s\"}",
-                                              recipient, message),
-                        slackWebhook)
-    buffer := bytes.NewBufferString("")
-    cmd.Stderr = buffer
-    output, oops := cmd.Output()
-    if oops == nil {
-        fmt.Printf("OUTPUT: %s\n", string(output))
-    } else {
-        why := buffer.String()
-        fmt.Printf("OUTPUT: %s\n", why)
-        oops = errors.New(why)
-    }
-
+    _, oops := http.Post(slackWebhook, "application/json", content)
     return oops
 }

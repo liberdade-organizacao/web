@@ -15,12 +15,6 @@
 
         {{.Header}}
 
-        <div class="banner">
-            <h1 class="banner-head">
-                Liberdade.
-            </h1>
-        </div>
-
         <div class="l-content">
             <div class="information pure-g">
                 <div class="pure-u-1 pure-u-md-1-2">
@@ -39,7 +33,7 @@
                     </div>
 
                     <div class="l-box">
-                        <h3>Entrar em contato</h3>
+                        <h3 class="information-head">Entrar em contato</h3>
                         <p>
                             Que tal mandar um e-mail? Nosso endereço de e-mail é <a href="mailto:liberdadeorganizacao@gmail.com">liberdadeorganizacao@gmail.com</a>
                         </p>
@@ -49,16 +43,16 @@
 
                         <p>Se preferir, pode mandar um e-mail diretamente daqui:</p>
 
-                        <form class="pure-form pure-form-stacked" action="/contatar" method="get">
+                        <form class="pure-form pure-form-stacked" action="/contatar" method="post">
                             <fieldset>
                                 <label for="name">Nome</label>
-                                <input id="name" type="text" class="pure-input-1-2" placeholder="Nome">
+                                <input id="name" name="name" type="text" class="pure-input-1-2" placeholder="Nome">
 
                                 <label for="email">E-mail</label>
-                                <input id="email" type="email" class="pure-input-1-2" placeholder="Email">
+                                <input id="email" name="email" type="email" class="pure-input-1-2" placeholder="Email">
 
                                 <label for="message">Mensagem</label>
-                                <textarea id="message" class="pure-input-1-2" placeholder=""></textarea>
+                                <textarea id="message" name="message" class="pure-input-1-2" placeholder=""></textarea>
 
                                 <button type="submit" class="pure-button pure-button-primary">Enviar</button>
                             </fieldset>

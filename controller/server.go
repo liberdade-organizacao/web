@@ -23,7 +23,7 @@ func NewServer() Server {
     // Main pages
     http.HandleFunc("/", server.ShowIndex)
     http.HandleFunc("/contato", server.ShowAboutPage)
-    // http.HandleFunc("/contatar", server.ContactUs)
+    http.HandleFunc("/contatar", server.ContactUs)
     http.HandleFunc("/suporte", server.ShowSupportPage)
 
     return server
@@ -43,7 +43,7 @@ func (server *Server) ShowIndex(w http.ResponseWriter, r *http.Request) {
 
 // Displays the office page
 func (server *Server) ShowAboutPage(w http.ResponseWriter, r *http.Request) {
-    view.ShowAboutPage(w)
+    view.ShowAboutPage(w, "")
 }
 
 // Displays the garage page
@@ -51,4 +51,14 @@ func (server *Server) ShowSupportPage(w http.ResponseWriter, r *http.Request) {
     view.ShowSupportPage(w)
 }
 
-// TODO Implement call for Slack
+// Sends a message to the people in Liberdade
+func (server *Server) ContactUs(w http.ResponseWriter, r *http.Request) {
+    oops := model.Contact(r)
+    message := "ok"
+
+    if oops == nil {
+
+    }
+
+    view.ShowAboutPage(w, message)
+}
