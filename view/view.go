@@ -41,8 +41,12 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
     }
 }
 
-func ShowIndex(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/index.gohtml")
+func ShowIndex(writer io.Writer, posts []string) {
+    args := make(map[string]string)
+
+
+
+    LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
 }
 
 func ShowContactPage(writer io.Writer) {

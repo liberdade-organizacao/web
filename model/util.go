@@ -5,6 +5,8 @@ import "os/exec"
 import "fmt"
 import "errors"
 import "bytes"
+import "net/http"
+import "json"
 
 // Gets the port for releasing the server
 func GetPort() string {
@@ -15,6 +17,23 @@ func GetPort() string {
     }
 
     return ":" + port
+}
+
+// Retrieves posts from Tumblr
+func GetPosts() []string {
+    secret := os.Getenv("TUMBLR_SECRET")
+    url := fmt.Sprintf("http://api.tumblr.com/v2/blog/%s/posts/text?api_key=%s",
+                       "liberdadeorganizacao.tumblr.com",
+                       secret)
+    rawResponse, oops := http.Get(url)
+    var response interface{}
+    oops := json.Unmarshall(rawResponse, &response)
+    outlet := make([]string, 0)
+    if oops != nil {
+        return outlet
+    }
+    // TODO Implement me!
+    return outlet
 }
 
 // Sends a simple email

@@ -35,7 +35,8 @@ func (server *Server) Serve() {
 
 // Displays the main page
 func (server *Server) ShowIndex(w http.ResponseWriter, r *http.Request) {
-    view.ShowIndex(w)
+    posts := model.GetPosts()
+    view.ShowIndex(w, posts)
 }
 
 // Displays the office page

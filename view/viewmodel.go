@@ -18,7 +18,7 @@ type ViewModel struct {
     Footer template.HTML
 
     // This mapping will relate the data produced by the model to the view.
-    Body map[string]template.HTML
+    Body template.HTML
 
     // This is the Javascript code that will be ran in the browser.
     Script template.JS
@@ -37,7 +37,7 @@ func NewViewModel() *ViewModel {
         Style: template.CSS(loadCss(cssFiles)),
         Header: template.HTML(loadHeader()),
         Footer: template.HTML(loadFooter()),
-        Body: make(map[string]template.HTML),
+        Body: template.HTML(""),
         Script: template.JS(loadJs(jsFiles)),
     }
     return &vm
@@ -52,6 +52,10 @@ func GenerateViewModel(args map[string]string) *ViewModel {
 
     if value, ok := args["script"]; ok {
         vm.Script = template.JS(loadJs(strings.Split(value, " ")))
+    }
+
+    if value, ok := args["body"]; ok {
+        vm.Body = template.HTML(value)
     }
 
     return vm
