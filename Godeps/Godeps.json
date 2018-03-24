@@ -1,0 +1,8 @@
+{
+	"ImportPath": "github.com/liberdade-organizacao/web",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v75",
+	"Packages": [
+		"./..."
+	]
+}
