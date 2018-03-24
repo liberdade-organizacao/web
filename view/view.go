@@ -58,12 +58,12 @@ func ShowIndex(writer io.Writer, posts []map[string]string) {
     LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
 }
 
-func ShowContactPage(writer io.Writer) {
+func ShowAboutPage(writer io.Writer) {
     LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
 }
 
-func ShowAboutPage(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/quem.gohtml")
+func ShowSupportPage(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "assets/html/suporte.gohtml")
 }
 
 func DisplayError(writer io.Writer, oops error) {

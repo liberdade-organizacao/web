@@ -22,8 +22,9 @@ func NewServer() Server {
 
     // Main pages
     http.HandleFunc("/", server.ShowIndex)
-    http.HandleFunc("/contato", server.ShowContactPage)
-    http.HandleFunc("/quem", server.ShowAboutPage)
+    http.HandleFunc("/contato", server.ShowAboutPage)
+    // http.HandleFunc("/contatar", server.ContactUs)
+    http.HandleFunc("/suporte", server.ShowSupportPage)
 
     return server
 }
@@ -41,13 +42,13 @@ func (server *Server) ShowIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 // Displays the office page
-func (server *Server) ShowContactPage(w http.ResponseWriter, r *http.Request) {
-    view.ShowContactPage(w)
+func (server *Server) ShowAboutPage(w http.ResponseWriter, r *http.Request) {
+    view.ShowAboutPage(w)
 }
 
 // Displays the garage page
-func (server *Server) ShowAboutPage(w http.ResponseWriter, r *http.Request) {
-    view.ShowAboutPage(w)
+func (server *Server) ShowSupportPage(w http.ResponseWriter, r *http.Request) {
+    view.ShowSupportPage(w)
 }
 
 // TODO Implement call for Slack
