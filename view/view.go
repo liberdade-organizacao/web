@@ -57,15 +57,20 @@ func ShowIndex(writer io.Writer, posts []map[string]string, offset int) {
 
     // Building offset
     pagination := `<p>`
-    if offset >= 10 {
+    if offset >= 1 {
+        off := offset-10
+        if off < 0 {
+            off = 0
+        }
         pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        </a>`, pagination, offset - 10)
+        </a>`, pagination, off)
     }
-    // BUG The next page button shouldn't always appear here.
-    pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-    </a>`, pagination, offset+10)
+    if len(posts) >= 10 {
+        pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>`, pagination, offset+10)
+    }
     pagination = fmt.Sprintf("%s</p>", pagination)
     args["offset"] = pagination
 
