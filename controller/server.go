@@ -22,6 +22,7 @@ func NewServer() Server {
 
     // Main pages
     http.HandleFunc("/", server.ShowIndex)
+    http.HandleFunc("/index", server.ShowIndex)
     http.HandleFunc("/contato", server.ShowAboutPage)
     http.HandleFunc("/contatar", server.ContactUs)
     http.HandleFunc("/suporte", server.ShowSupportPage)
@@ -36,9 +37,9 @@ func (server *Server) Serve() {
 
 // Displays the main page
 func (server *Server) ShowIndex(w http.ResponseWriter, r *http.Request) {
-    // TODO Implement pagination logic
-    posts := model.GetPosts()
-    view.ShowIndex(w, posts)
+    offset := model.GetOffset(r)
+    posts := model.GetPosts(offset)
+    view.ShowIndex(w, posts, offset)
 }
 
 // Displays the office page

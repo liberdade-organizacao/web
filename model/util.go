@@ -20,15 +20,28 @@ func GetPort() string {
     return ":" + port
 }
 
+// Gets the offset value from a request
+func GetOffset(request *http.Request) int {
+    offset := 0
+
+    if len(request.FormValue("offset")) > 0 {
+        fmt.Sscanf(request.FormValue("offset"), "%d", &offset)
+    }
+
+    return offset
+}
+
 // Retrieves posts from Tumblr
-func GetPosts() []map[string]string {
+func GetPosts(offset int) []map[string]string {
     outlet := make([]map[string]string, 0)
 
     // Downloading stuff
     secret := os.Getenv("TUMBLR_SECRET")
-    url := fmt.Sprintf("http://api.tumblr.com/v2/blog/%s/posts/text?api_key=%s",
-                       "liberdadeorganizacao.tumblr.com",
-                       secret)
+    query := "http://api.tumblr.com/v2/blog/%s/posts/text?api_key=%s&limit=10"
+    url := fmt.Sprintf(query, "liberdadeorganizacao.tumblr.com", secret)
+    if offset > 0 {
+        url = fmt.Sprint("%s&offset=%d", url, offset)
+    }
     rawResponse, oops := http.Get(url)
     if oops != nil {
         return outlet
@@ -54,6 +67,9 @@ func GetPosts() []map[string]string {
             post["body"] = rawPost.(map[string]interface{})["body"].(string)
             outlet = append(outlet, post)
         }
+    } else {
+        fmt.Println(string(content))
+        panic("Something went wrong")
     }
 
     return outlet

@@ -1,9 +1,11 @@
 package view
 
-import "fmt"
-import "html/template"
-import "io/ioutil"
-import "strings"
+import (
+    "fmt"
+    "html/template"
+    "io/ioutil"
+    "strings"
+)
 
 // This class will deal with creating our HTML pages by adding the necessary
 // assets (like CSS and Javascript) and facilitating the body customization.
@@ -19,6 +21,9 @@ type ViewModel struct {
 
     // This mapping will relate the data produced by the model to the view.
     Body template.HTML
+
+    // This is the page offset
+    Offset template.HTML
 
     // This is the Javascript code that will be ran in the browser.
     Script template.JS
@@ -38,6 +43,7 @@ func NewViewModel() *ViewModel {
         Header: template.HTML(loadHeader()),
         Footer: template.HTML(loadFooter()),
         Body: template.HTML(""),
+        Offset: template.HTML(""),
         Script: template.JS(loadJs(jsFiles)),
     }
     return &vm
@@ -56,6 +62,10 @@ func GenerateViewModel(args map[string]string) *ViewModel {
 
     if value, ok := args["body"]; ok {
         vm.Body = template.HTML(value)
+    }
+
+    if value,ok := args["offset"]; ok {
+        vm.Offset = template.HTML(value)
     }
 
     return vm

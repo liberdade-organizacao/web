@@ -41,19 +41,33 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
     }
 }
 
-func ShowIndex(writer io.Writer, posts []map[string]string) {
+func ShowIndex(writer io.Writer, posts []map[string]string, offset int) {
     args := make(map[string]string)
     body := "<div class=\"pure-u-1 pure-u-md-1-2\">"
 
+    // Body building
     for _, post := range posts {
         title := fmt.Sprintf("<h3 class=\"information-head\">%s</h3>",
                              post["title"])
         body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n",
                            body, title, post["body"])
     }
-
     body = fmt.Sprintf("%s</div>\n", body)
     args["body"] = body
+
+    // Building offset
+    pagination := `<p>`
+    if offset >= 10 {
+        pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </a>`, pagination, offset - 10)
+    }
+    // BUG The next page button shouldn't always appear here.
+    pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    </a>`, pagination, offset+10)
+    pagination = fmt.Sprintf("%s</p>", pagination)
+    args["offset"] = pagination
 
     LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
 }
