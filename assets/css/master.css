@@ -15,7 +15,7 @@ p {
     line-height: 1.6em;
 }
 i.fa {
-    color: #B80C09;
+    color: #F18F01;
 }
 i.fo {
     color: #dfe5e6;
@@ -25,7 +25,7 @@ a:link,
 a:visited {
     color: #090909;
     text-decoration-style: solid;
-    text-decoration-color: #B80C09;
+    text-decoration-color: #F18F01;
 }
 .l-content {
     margin: 0 auto;
@@ -44,8 +44,8 @@ a:visited {
     text-transform: capitalize !important;
 }
 .banner {
-    background: url("https://raw.githubusercontent.com/ishiikurisu/liberdade/master/assets/img/bg.png") repeat;
-    background-color: #b80c09;
+    background: url("https://raw.githubusercontent.com/liberdade-organizacao/tumblr/master/src/pde/bg/bg.png") repeat;
+    background-color: #F18F01;
     text-align: center;
     height: 200px;
     width: 100%;
