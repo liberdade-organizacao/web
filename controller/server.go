@@ -21,11 +21,11 @@ func NewServer() Server {
     }
 
     // Main pages
-    http.HandleFunc("/", server.ShowIndex)
-    http.HandleFunc("/index", server.ShowIndex)
-    http.HandleFunc("/contato", server.ShowAboutPage)
+    http.HandleFunc("/", server.ShowIndexPage)
+    http.HandleFunc("/index", server.ShowIndexPage)
     http.HandleFunc("/contatar", server.ContactUs)
     http.HandleFunc("/suporte", server.ShowSupportPage)
+    http.HandleFunc("/blog", server.DisplayBlog)
 
     return server
 }
@@ -36,20 +36,19 @@ func (server *Server) Serve() {
 }
 
 // Displays the main page
-func (server *Server) ShowIndex(w http.ResponseWriter, r *http.Request) {
-    offset := model.GetOffset(r)
-    posts := model.GetPosts(offset)
-    view.ShowIndex(w, posts, offset)
+func (server *Server) ShowIndexPage(w http.ResponseWriter, r *http.Request) {
+    view.ShowIndex(w, "")
 }
 
-// Displays the office page
-func (server *Server) ShowAboutPage(w http.ResponseWriter, r *http.Request) {
-    view.ShowAboutPage(w, "")
+func (server *Server) DisplayBlog(w http.ResponseWriter, r *http.Request) {
+    offset := model.GetOffset(r)
+    posts := model.GetPosts(offset)
+    view.ShowBlog(w, posts, offset)
 }
 
 // Displays the garage page
 func (server *Server) ShowSupportPage(w http.ResponseWriter, r *http.Request) {
-    view.ShowSupportPage(w)
+    view.ShowSupport(w)
 }
 
 // Sends a message to the people in Liberdade
@@ -61,5 +60,5 @@ func (server *Server) ContactUs(w http.ResponseWriter, r *http.Request) {
 
     }
 
-    view.ShowAboutPage(w, message)
+    view.ShowIndex(w, message)
 }

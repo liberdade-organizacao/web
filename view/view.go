@@ -41,12 +41,16 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
     }
 }
 
-func ShowIndex(writer io.Writer, posts []map[string]string, offset int) {
+func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
     args := make(map[string]string)
     body := "<div class=\"pure-u-1 pure-u-md-1-2\">"
 
-    // Body building
-    for _, post := range posts {
+    limit := len(posts)
+    if limit > 10 {
+        limit = 10
+    }
+    for i := 0; i < limit; i++ {
+        post := posts[i]
         title := fmt.Sprintf("<h3 class=\"information-head\">%s</h3>",
                              post["title"])
         body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n",
@@ -62,22 +66,22 @@ func ShowIndex(writer io.Writer, posts []map[string]string, offset int) {
         if off < 0 {
             off = 0
         }
-        pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
+        pagination = fmt.Sprintf(`%s<a href="/blog?offset=%d">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
         </a>`, pagination, off)
     }
-    if len(posts) >= 10 {
-        pagination = fmt.Sprintf(`%s<a href="/index?offset=%d">
+    if len(posts) > 10 {
+        pagination = fmt.Sprintf(`%s<a href="/blog?offset=%d">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>`, pagination, offset+10)
     }
     pagination = fmt.Sprintf("%s</p>", pagination)
     args["offset"] = pagination
 
-    LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
+    LoadFileWithArgs(writer, "assets/html/blog.gohtml", args)
 }
 
-func ShowAboutPage(writer io.Writer, message string) {
+func ShowIndex(writer io.Writer, message string) {
     if len(message) == 0 {
         LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
     } else {
@@ -91,7 +95,7 @@ func ShowAboutPage(writer io.Writer, message string) {
     }
 }
 
-func ShowSupportPage(writer io.Writer) {
+func ShowSupport(writer io.Writer) {
     LoadFileWithoutArgs(writer, "assets/html/suporte.gohtml")
 }
 

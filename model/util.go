@@ -37,10 +37,10 @@ func GetPosts(offset int) []map[string]string {
 
     // Downloading stuff
     secret := os.Getenv("TUMBLR_SECRET")
-    query := "http://api.tumblr.com/v2/blog/%s/posts/text?api_key=%s&limit=10"
+    query := "http://api.tumblr.com/v2/blog/%s/posts/text?api_key=%s&limit=11"
     url := fmt.Sprintf(query, "liberdadeorganizacao.tumblr.com", secret)
     if offset > 0 {
-        url = fmt.Sprint("%s&offset=%d", url, offset)
+        url = fmt.Sprintf("%s&offset=%d", url, offset)
     }
     rawResponse, oops := http.Get(url)
     if oops != nil {
@@ -68,7 +68,6 @@ func GetPosts(offset int) []map[string]string {
             outlet = append(outlet, post)
         }
     } else {
-        fmt.Println(string(content))
         panic("Something went wrong")
     }
 
