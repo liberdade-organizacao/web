@@ -75,7 +75,7 @@ func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>`, pagination, offset+10)
     }
-    pagination = fmt.Sprintf("%s</p>", pagination)
+    pagination = fmt.Sprintf("%s</p><hr>", pagination)
     args["offset"] = pagination
 
     LoadFileWithArgs(writer, "assets/html/blog.gohtml", args)
