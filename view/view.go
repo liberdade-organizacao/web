@@ -53,7 +53,7 @@ func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
         post := posts[i]
         title := fmt.Sprintf("<h3 class=\"information-head\">%s</h3>",
                              post["title"])
-        body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n",
+        body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n<hr>\n",
                            body, title, post["body"])
     }
     body = fmt.Sprintf("%s</div>\n", body)
@@ -75,7 +75,7 @@ func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>`, pagination, offset+10)
     }
-    pagination = fmt.Sprintf("%s</p><hr>", pagination)
+    pagination = fmt.Sprintf("%s</p>", pagination)
     args["offset"] = pagination
 
     LoadFileWithArgs(writer, "assets/html/blog.gohtml", args)
