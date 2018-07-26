@@ -81,10 +81,10 @@ hr {
     padding: 0 0 3em;
 }
 .pricing-table-free .pricing-table-header {
-    background: #f9d400;
+    background: #F18F01;
 }
 .pricing-table-biz .pricing-table-header {
-    background: #456175;
+    background: #F18F01;
 }
 .pricing-table-header {
     background: #111;
@@ -97,7 +97,7 @@ hr {
     font-weight: normal;
 }
 .pricing-table-price {
-    font-size: 6em;
+    font-size: 4em;
     margin: 0.2em 0 0;
     font-weight: 100;
 }
