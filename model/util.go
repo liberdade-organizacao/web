@@ -7,6 +7,8 @@ import (
     "net/http"
     "encoding/json"
     "io/ioutil"
+    "html"
+    "strings"
 )
 
 // Gets the port for releasing the server
@@ -76,16 +78,25 @@ func GetPosts(offset int) []map[string]string {
 
 // Sends a simple email
 func Contact(request *http.Request) error {
+    // Message formatting
+    message := request.FormValue("message")
+    lineFeed := "\n"
+    if strings.Contains(message, "\r") {
+        lineFeed = "\r\n"
+    }
+    message = strings.Replace(message, lineFeed, "<br>", -1)
+    payload := fmt.Sprintf("{\"value1\":\"%s\",\"value2\":\"%s\",\"value3\":\"%s\"}",
+        request.FormValue("name"),
+        request.FormValue("email"),
+        html.EscapeString(message))
+    content := bytes.NewBufferString(payload)
+
+    // IFTTT setup
     iftttUrl := "https://maker.ifttt.com/trigger/%s/with/key/%s"
     iftttKey := os.Getenv("IFTTT_KEY")
     iftttEvent := "liberdade_notified"
     iftttWebhook := fmt.Sprintf(iftttUrl, iftttEvent, iftttKey)
-    // BUG Discover messages with '""' and "\n" are not sent
-    payload := fmt.Sprintf("{\"value1\":\"%s\",\"value2\":\"%s\",\"value3\":\"%s\"}",
-                           request.FormValue("name"),
-                           request.FormValue("email"),
-                           request.FormValue("message"))
-    content := bytes.NewBufferString(payload)
     _, oops := http.Post(iftttWebhook, "application/json", content)
+    // BUG Invalid messages are receiving an ok answer
     return oops
 }
