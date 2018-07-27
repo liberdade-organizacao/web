@@ -76,13 +76,16 @@ func GetPosts(offset int) []map[string]string {
 
 // Sends a simple email
 func Contact(request *http.Request) error {
-    recipient := fmt.Sprintf("%s <%s>",
-                             request.FormValue("name"),
-                             request.FormValue("email"))
-    message := request.FormValue("message")
-    content := bytes.NewBufferString(fmt.Sprintf("{\"text\": \"%s: %s\"}",
-                                                 recipient, message))
-    slackWebhook := os.Getenv("SLACK_WEBHOOK")
-    _, oops := http.Post(slackWebhook, "application/json", content)
+    iftttUrl := "https://maker.ifttt.com/trigger/%s/with/key/%s"
+    iftttKey := os.Getenv("IFTTT_KEY")
+    iftttEvent := "liberdade_notified"
+    iftttWebhook := fmt.Sprintf(iftttUrl, iftttEvent, iftttKey)
+    // BUG Discover messages with '""' and "\n" are not sent
+    payload := fmt.Sprintf("{\"value1\":\"%s\",\"value2\":\"%s\",\"value3\":\"%s\"}",
+                           request.FormValue("name"),
+                           request.FormValue("email"),
+                           request.FormValue("message"))
+    content := bytes.NewBufferString(payload)
+    _, oops := http.Post(iftttWebhook, "application/json", content)
     return oops
 }

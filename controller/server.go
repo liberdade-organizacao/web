@@ -58,6 +58,8 @@ func (server *Server) ContactUs(w http.ResponseWriter, r *http.Request) {
 
     if oops == nil {
 
+    } else {
+        message = "oops"
     }
 
     view.ShowIndex(w, message)
