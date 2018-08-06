@@ -9,6 +9,7 @@ import (
     "io/ioutil"
     "html"
     "strings"
+    "strconv"
 )
 
 // Gets the port for releasing the server
@@ -31,6 +32,20 @@ func GetOffset(request *http.Request) int {
     }
 
     return offset
+}
+
+// Gets the required post id
+func GetPostId(request *http.Request) float64 {
+    var id float64 = 0
+
+    if len(request.FormValue("id")) > 0 {
+        maybe, oops := strconv.ParseFloat(request.FormValue("id"), 64)
+        if oops == nil {
+            id = maybe
+        }
+    }
+
+    return id
 }
 
 // Retrieves posts from Tumblr
@@ -65,12 +80,40 @@ func GetPosts(offset int) []map[string]string {
         posts := payload.(map[string]interface{})["response"].(map[string]interface{})["posts"].([]interface{})
         for _, rawPost := range posts {
             post := make(map[string]string)
+            post["id"] = strconv.FormatFloat(
+                rawPost.(map[string]interface{})["id"].(float64),
+                'e', -1, 64)
             post["title"] = rawPost.(map[string]interface{})["title"].(string)
             post["body"] = rawPost.(map[string]interface{})["body"].(string)
             outlet = append(outlet, post)
         }
     } else {
         panic("Something went wrong")
+    }
+
+    return outlet
+}
+
+// Get the post identified by the given id
+func GetPost(id float64) map[string]string {
+    outlet := map[string]string {
+        "id": "0",
+        "title": "Not found!",
+        "body": "There is no post like the one you are looking for... :(",
+    }
+    posts := GetPosts(0)
+    found := false
+    offset := 0
+
+    for (len(posts) > 10) && (!found) {
+        for _, post := range posts {
+            currentId, oops := strconv.ParseFloat(post["id"], 64)
+            if (oops == nil) && (currentId == id) {
+                outlet = post
+            }
+        }
+        offset += 10
+        posts = GetPosts(offset)
     }
 
     return outlet

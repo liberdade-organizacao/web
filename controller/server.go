@@ -26,6 +26,7 @@ func NewServer() Server {
     http.HandleFunc("/contatar", server.ContactUs)
     http.HandleFunc("/suporte", server.ShowSupportPage)
     http.HandleFunc("/blog", server.DisplayBlog)
+    http.HandleFunc("/blog/post", server.DisplayPost)
 
     return server
 }
@@ -44,6 +45,12 @@ func (server *Server) DisplayBlog(w http.ResponseWriter, r *http.Request) {
     offset := model.GetOffset(r)
     posts := model.GetPosts(offset)
     view.ShowBlog(w, posts, offset)
+}
+
+func (server *Server) DisplayPost(w http.ResponseWriter, r *http.Request) {
+    postId := model.GetPostId(r)
+    post := model.GetPost(postId)
+    view.ShowPost(w, post)
 }
 
 // Displays the garage page

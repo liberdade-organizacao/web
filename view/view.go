@@ -51,8 +51,8 @@ func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
     }
     for i := 0; i < limit; i++ {
         post := posts[i]
-        title := fmt.Sprintf("<h3 class=\"information-head\">%s</h3>",
-                             post["title"])
+        title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
+                             post["id"], post["title"])
         body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n<hr>\n",
                            body, title, post["body"])
     }
@@ -105,4 +105,13 @@ func DisplayError(writer io.Writer, oops error) {
     } else {
         fmt.Fprintf(writer, "%#v\n", oops)
     }
+}
+
+func ShowPost(writer io.Writer, post map[string]string) {
+    args := make(map[string]string)
+    title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
+                         post["id"], post["title"])
+    body := fmt.Sprintf("<div class=\"l-box\">%s%s</div>\n", title, post["body"])
+    args["body"] = body
+    LoadFileWithArgs(writer, "assets/html/post.html", args)
 }
