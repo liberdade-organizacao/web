@@ -110,6 +110,7 @@ func GetPost(id float64) map[string]string {
             currentId, oops := strconv.ParseFloat(post["id"], 64)
             if (oops == nil) && (currentId == id) {
                 outlet = post
+			  	found = true
             }
         }
         offset += 10
