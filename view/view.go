@@ -43,7 +43,7 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
 
 func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
     args := make(map[string]string)
-    body := "<div class=\"pure-u-1 pure-u-md-1-2\">"
+    body := "<div class=\"pure-u-1\">"
 
     limit := len(posts)
     if limit > 10 {
@@ -111,7 +111,7 @@ func ShowPost(writer io.Writer, post map[string]string) {
     args := make(map[string]string)
     title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
                          post["id"], post["title"])
-    body := fmt.Sprintf("<div class=\"l-box\">%s%s</div>\n", title, post["body"])
+    body := fmt.Sprintf("<div class=\"pure-u-1\"><div class=\"l-box\">%s%s</div></div>\n", title, post["body"])
     args["body"] = body
-    LoadFileWithArgs(writer, "assets/html/post.html", args)
+    LoadFileWithArgs(writer, "assets/html/post.gohtml", args)
 }

@@ -37,9 +37,10 @@ func GetOffset(request *http.Request) int {
 // Gets the required post id
 func GetPostId(request *http.Request) float64 {
     var id float64 = 0
+    value := strings.Replace(request.FormValue("id"), " ", "+", -1)
 
-    if len(request.FormValue("id")) > 0 {
-        maybe, oops := strconv.ParseFloat(request.FormValue("id"), 64)
+    if len(value) > 0 {
+        maybe, oops := strconv.ParseFloat(value, 64)
         if oops == nil {
             id = maybe
         }
@@ -105,7 +106,7 @@ func GetPost(id float64) map[string]string {
     found := false
     offset := 0
 
-    for (len(posts) > 10) && (!found) {
+    for (len(posts) > 0) && (!found) {
         for _, post := range posts {
             currentId, oops := strconv.ParseFloat(post["id"], 64)
             if (oops == nil) && (currentId == id) {
