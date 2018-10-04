@@ -154,3 +154,7 @@ hr {
         font-size: 3em;
     }
 }
+
+table {
+  .pure-table;
+}

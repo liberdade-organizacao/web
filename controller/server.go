@@ -27,6 +27,7 @@ func NewServer() Server {
     http.HandleFunc("/suporte", server.ShowSupportPage)
     http.HandleFunc("/blog", server.DisplayBlog)
     http.HandleFunc("/blog/post", server.DisplayPost)
+  	http.HandleFunc("/api/posts", server.GivePosts)
 
     return server
 }
@@ -70,4 +71,12 @@ func (server *Server) ContactUs(w http.ResponseWriter, r *http.Request) {
     }
 
     view.ShowIndex(w, message)
+}
+
+// Provides posts for the outside world via JSON payload
+func (server *Server) GivePosts(w http.ResponseWriter, r *http.Request) {
+	offset := model.GetOffset(r)
+    posts := model.GetPosts(offset)
+  	// TODO Set response type to JSON
+    view.ProvidePosts(w, posts)
 }

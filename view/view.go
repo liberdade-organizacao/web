@@ -115,3 +115,8 @@ func ShowPost(writer io.Writer, post map[string]string) {
     args["body"] = body
     LoadFileWithArgs(writer, "assets/html/post.gohtml", args)
 }
+
+func ProvidePosts(writer io.Writer, posts []map[string]string) {
+	// TODO Turn posts into a JSON string
+  	// TODO Write JSON payload to writer
+}
