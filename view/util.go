@@ -43,7 +43,7 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
 
 // Pack posts into a HTML string
 func PostsToString(posts []map[string]string) string {
-    body := "<div class=\"pure-u-1\">"
+    body := ""
 
     limit := len(posts)
     if limit > 10 {
@@ -51,12 +51,15 @@ func PostsToString(posts []map[string]string) string {
     }
     for i := 0; i < limit; i++ {
         post := posts[i]
-        title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
+        maybe_hr := "\n<hr/>"
+        if i == limit - 1 {
+            maybe_hr = ""
+        }
+        title := fmt.Sprintf("<h2><a href=\"/blog/post?id=%s\">%s</a></h2>",
                              post["id"], post["title"])
-        body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n<hr>\n",
-                           body, title, post["body"])
+        body = fmt.Sprintf("%s<div class=\"content\">%s%s\n%s\n</div>\n",
+                           body, title, post["body"], maybe_hr)
     }
-    body = fmt.Sprintf("%s</div>\n", body)
 
     return body
 }
