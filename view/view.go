@@ -2,64 +2,30 @@ package view
 
 import (
     "io"
-    "os"
-    "html/template"
     "fmt"
 )
 
-// Gets the current PWD
-func GetPwd() string {
-    codePath := "./src/github.com/liberdade-organizacao/web/"
-    port := os.Getenv("PORT")
+/**************
+ * INDEX PAGE *
+ **************/
 
-    if len(port) != 0 {
-        codePath = os.Getenv("HOME") + "/"
-    }
-
-    return codePath
+// Builds index page
+func ShowIndex(writer io.Writer, posts []map[string]string) {
+    args := make(map[string]string)
+    args["body"] = PostsToString(posts)
+    args["offset"] = ""
+    LoadFileWithArgs(writer, "assets/html/index.gohtml", args)
 }
 
-// Standard procedure to load a HTML file that does not need any customization.
-func LoadFileWithoutArgs(writer io.Writer, path string) {
-    htmlPath := GetPwd() + path
-    templ, err := template.ParseFiles(htmlPath)
-    viewModel := NewViewModel()
-    err = templ.Execute(writer, viewModel)
-    if err != nil {
-        fmt.Printf("%#v\n", err)
-    }
-}
+/**************
+ * BLOG PAGES *
+ **************/
 
-// Procedure to customize HTML files
-func LoadFileWithArgs(writer io.Writer, path string, args map[string]string) {
-    htmlPath := GetPwd() + path
-    templ, err := template.ParseFiles(htmlPath)
-    viewModel := GenerateViewModel(args)
-    err = templ.Execute(writer, viewModel)
-    if err != nil {
-        fmt.Printf("%#v\n", err)
-    }
-}
-
+// Build a blog page with many posts
 func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
     args := make(map[string]string)
-    body := "<div class=\"pure-u-1\">"
+    args["body"] = PostsToString(posts)
 
-    limit := len(posts)
-    if limit > 10 {
-        limit = 10
-    }
-    for i := 0; i < limit; i++ {
-        post := posts[i]
-        title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
-                             post["id"], post["title"])
-        body = fmt.Sprintf("%s<div class=\"l-box\">%s%s</div>\n<hr>\n",
-                           body, title, post["body"])
-    }
-    body = fmt.Sprintf("%s</div>\n", body)
-    args["body"] = body
-
-    // Building offset
     pagination := `<p>`
     if offset >= 1 {
         off := offset-10
@@ -81,32 +47,7 @@ func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
     LoadFileWithArgs(writer, "assets/html/blog.gohtml", args)
 }
 
-func ShowIndex(writer io.Writer, message string) {
-    if len(message) == 0 {
-        LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
-    } else {
-        script := "ok.js"
-        if message != "ok" {
-            script = "not-ok.js"
-        }
-        args := make(map[string]string)
-        args["script"] = script
-        LoadFileWithArgs(writer, "assets/html/contato.gohtml", args)
-    }
-}
-
-func ShowSupport(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/suporte.gohtml")
-}
-
-func DisplayError(writer io.Writer, oops error) {
-    if oops == nil {
-        fmt.Fprintf(writer, "Ok!\n")
-    } else {
-        fmt.Fprintf(writer, "%#v\n", oops)
-    }
-}
-
+// Displays a blog page with a single page
 func ShowPost(writer io.Writer, post map[string]string) {
     args := make(map[string]string)
     title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
@@ -116,7 +57,26 @@ func ShowPost(writer io.Writer, post map[string]string) {
     LoadFileWithArgs(writer, "assets/html/post.gohtml", args)
 }
 
+// Provides posts in a machine readable manner
 func ProvidePosts(writer io.Writer, posts []map[string]string) {
 	// TODO Turn posts into a JSON string
   	// TODO Write JSON payload to writer
+}
+
+/****************
+ * SUPPORT PAGE *
+ ****************/
+
+// Loads support page
+func ShowSupport(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "assets/html/suporte.gohtml")
+}
+
+/****************
+ * CONTACT PAGE *
+ ****************/
+
+// Loads "contact us" page
+func ShowContactUs(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "assets/html/contato.gohtml")
 }

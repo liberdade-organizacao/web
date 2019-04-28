@@ -23,7 +23,7 @@ func NewServer() Server {
     // Main pages
     http.HandleFunc("/", server.ShowIndexPage)
     http.HandleFunc("/index", server.ShowIndexPage)
-    http.HandleFunc("/contatar", server.ContactUs)
+    http.HandleFunc("/contato", server.ShowContactPage)
     http.HandleFunc("/suporte", server.ShowSupportPage)
     http.HandleFunc("/blog", server.DisplayBlog)
     http.HandleFunc("/blog/post", server.DisplayPost)
@@ -32,14 +32,13 @@ func NewServer() Server {
     return server
 }
 
-// Puts the webserver to, well, serve.
 func (server *Server) Serve() {
     http.ListenAndServe(server.Port, nil)
 }
 
-// Displays the main page
 func (server *Server) ShowIndexPage(w http.ResponseWriter, r *http.Request) {
-    view.ShowIndex(w, "")
+    posts := model.GetPosts(0)[0:4]
+    view.ShowIndex(w, posts)
 }
 
 func (server *Server) DisplayBlog(w http.ResponseWriter, r *http.Request) {
@@ -54,24 +53,19 @@ func (server *Server) DisplayPost(w http.ResponseWriter, r *http.Request) {
     view.ShowPost(w, post)
 }
 
-// Displays the garage page
 func (server *Server) ShowSupportPage(w http.ResponseWriter, r *http.Request) {
     view.ShowSupport(w)
 }
 
-// Sends a message to the people in Liberdade
-func (server *Server) ContactUs(w http.ResponseWriter, r *http.Request) {
-    oops := model.Contact(r)
-    message := "ok"
-
-    if oops == nil {
-
-    } else {
-        message = "oops"
-    }
-
-    view.ShowIndex(w, message)
+func (server *Server) ShowContactPage(w http.ResponseWriter, r *http.Request) {
+    view.ShowContactUs(w)
 }
+
+// Sends a message to the people in Liberdade
+// TODO Implement me!
+// func (server *Server) ContactUs(w http.ResponseWriter, r *http.Request) {
+//     view.ShowContactUs(w)
+// }
 
 // Provides posts for the outside world via JSON payload
 func (server *Server) GivePosts(w http.ResponseWriter, r *http.Request) {
