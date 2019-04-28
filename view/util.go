@@ -51,15 +51,25 @@ func PostsToString(posts []map[string]string) string {
     }
     for i := 0; i < limit; i++ {
         post := posts[i]
-        maybe_hr := "\n<hr/>"
+        include_hr := true
         if i == limit - 1 {
-            maybe_hr = ""
+            include_hr = false
         }
-        title := fmt.Sprintf("<h2><a href=\"/blog/post?id=%s\">%s</a></h2>",
-                             post["id"], post["title"])
-        body = fmt.Sprintf("%s<div class=\"content\">%s%s\n%s\n</div>\n",
-                           body, title, post["body"], maybe_hr)
+        body = fmt.Sprintf("%s%s", body, PostToString(post, include_hr))
     }
 
     return body
+}
+
+// Turns one post into a string
+func PostToString(post map[string]string, include_hr bool) string {
+    maybe_hr := ""
+    if include_hr {
+        maybe_hr = "<hr/>"
+    }
+    title := fmt.Sprintf("<h2><a href=\"/blog/post?id=%s\">%s</a></h2>",
+                         post["id"], post["title"])
+    content := fmt.Sprintf("<div class=\"content\">%s%s\n%s\n</div>\n",
+                           title, post["body"], maybe_hr)
+    return content
 }

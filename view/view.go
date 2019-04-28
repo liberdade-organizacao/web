@@ -50,10 +50,7 @@ func ShowBlog(writer io.Writer, posts []map[string]string, offset int) {
 // Displays a blog page with a single page
 func ShowPost(writer io.Writer, post map[string]string) {
     args := make(map[string]string)
-    title := fmt.Sprintf("<h3 class=\"information-head\"><a href=\"/blog/post?id=%s\">%s</a></h3>",
-                         post["id"], post["title"])
-    body := fmt.Sprintf("<div class=\"pure-u-1\"><div class=\"l-box\">%s%s</div></div>\n", title, post["body"])
-    args["body"] = body
+    args["body"] = PostToString(post, false)
     LoadFileWithArgs(writer, "assets/html/post.gohtml", args)
 }
 

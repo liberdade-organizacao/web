@@ -6,7 +6,7 @@
         <meta name="description" content="Página da Liberdade Consultoria em Organização">
         <title>Liberdade.</title>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
         <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
         <style>
             {{.Style}}
@@ -17,20 +17,17 @@
         {{.Header}}
 
 
-        <div class="l-content">
-            <div class="information pure-g">
-                {{.Body}}
-                <div class="pure-u-1 pure-u-md-1-2">
-                    <div class="l-box">
-                        {{.Offset}}
-                    </div>
-                </div>
+        <section class="section">
+            {{.Body}}
+
+            <div class="container">
+                {{.Offset}}
             </div>
-        </div>
+        </section>
 
         {{.Footer}}
 
-        
+
         <script type="text/javascript">
             {{.Script}}
         </script>
